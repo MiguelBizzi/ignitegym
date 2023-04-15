@@ -33,6 +33,7 @@ interface RouteParamsProps {
 export function Exercise() {
   const [exercise, setExercise] = useState<IExercise>({} as IExercise);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [sendingRegister, setSendingRegister] = useState<boolean>(false);
 
   const navigation = useNavigation<AppNavigatorRoutesProps>();
   const route = useRoute();
@@ -64,6 +65,34 @@ export function Exercise() {
       });
     } finally {
       setIsLoading(false);
+    }
+  }
+
+  async function handleExerciseHistoryRegister() {
+    try {
+      setSendingRegister(true);
+
+      await api.post("/history", { exercise_id: exerciseId });
+
+      toast.show({
+        title: "Exercício registrado com sucesso!",
+        placement: "top",
+        bgColor: "green.700",
+      });
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+
+      const title = isAppError
+        ? error.message
+        : "Não foi possível registrar o exercício";
+
+      toast.show({
+        title,
+        placement: "top",
+        bgColor: "red.500",
+      });
+    } finally {
+      setSendingRegister(false);
     }
   }
 
@@ -152,7 +181,11 @@ export function Exercise() {
                 </HStack>
               </HStack>
 
-              <Button title="Marcar como realizado" />
+              <Button
+                onPress={handleExerciseHistoryRegister}
+                title="Marcar como realizado"
+                isLoading={sendingRegister}
+              />
             </Box>
           </VStack>
         </ScrollView>
