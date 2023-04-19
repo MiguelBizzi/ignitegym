@@ -21,6 +21,8 @@ import { UserPhoto } from "@components/UserPhoto";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { useAuth } from "@hooks/useAuth";
+import { api } from "@services/api";
+import { AppError } from "@utils/AppError";
 
 const PHOTO_SIZE = 33;
 
@@ -59,8 +61,9 @@ export function Profile() {
   const [userPhoto, setUserPhoto] = useState(
     "https://github.com/rodrigorgtic.png"
   );
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  const { user } = useAuth();
+  const { user, updateUserProfile } = useAuth();
   const toast = useToast();
   const {
     control,
@@ -110,7 +113,35 @@ export function Profile() {
   }
 
   async function handleProfileUpdate(data: FormDataProps) {
-    console.log(data);
+    try {
+      setIsUpdating(true);
+
+      const userUpdated = user;
+      userUpdated.name = data.name;
+
+      await api.put("/users", data);
+
+      await updateUserProfile(userUpdated);
+
+      toast.show({
+        title: "Perfil atualizado com sucesso!",
+        placement: "top",
+        bgColor: "green.500",
+      });
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+      const title = isAppError
+        ? error.message
+        : "Não foi possível atualizar os dados. Tente novamente mais tarde";
+
+      toast.show({
+        title,
+        placement: "top",
+        bgColor: "red.500",
+      });
+    } finally {
+      setIsUpdating(false);
+    }
   }
 
   return (
@@ -231,6 +262,7 @@ export function Profile() {
             onPress={handleSubmit(handleProfileUpdate)}
             title="Atualizar"
             mt={4}
+            isLoading={isUpdating}
           />
         </Center>
       </ScrollView>
