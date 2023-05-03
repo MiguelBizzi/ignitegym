@@ -19,9 +19,24 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 ## Screenshots
 
 <div style="display:flex; justify-content: center;">
+
+  Login
+  
   <img src=".github/login.png" alt="Imagem 1" margin-right:10px;">
+  
+  Tela de inicio
+  
   <img src=".github/telainicial.png" alt="Imagem 1" margin-right:10px;">
+  
+  Detalhes do exercicio
+  
   <img src=".github/exerciciodetails.png" alt="Imagem 1" margin-right:10px;">
+  
+  Historico
+  
   <img src=".github/historico.png" alt="Imagem 1" margin-right:10px;">
+  
+  Perfil
+  
   <img src=".github/profile.png" alt="Imagem 1" margin-right:10px;">
 </div>
