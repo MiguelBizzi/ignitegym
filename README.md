@@ -7,7 +7,7 @@ Seu projeto de academia na plataforma Github é uma excelente iniciativa para in
 
 Com esse projeto consegui evoluir e aprender novos conhecimentos
 
-## Tecnologias
+## Tecnologias 
 
 Esse projeto foi desenvolvido com as seguintes tecnologias:
 
